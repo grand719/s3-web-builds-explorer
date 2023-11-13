@@ -60,10 +60,10 @@ function App() {
             <FileRedirect
               link={
                 "https://" +
-                configuration.domain +
+                configuration.buildPrefix +
                 "." +
-                configuration.s3Domain +
-                ".amazonaws.com/" +
+                configuration.buildDomain +
+                "/" +
                 indexHtml.textContent
               }
               name="index.html"
