@@ -48,10 +48,9 @@ const useFetchPrefixes = (prefix, configuration) => {
       let objectWithIndexHtml = null;
       Array.from(keys).forEach((key) => {
         if (key.textContent.includes("index.html")) {
-          objectWithIndexHtml = key;
+          objectWithIndexHtml = key.parentNode;
         }
       });
-
       setIndexHtml(objectWithIndexHtml);
       setPrefixes(Array.from(prefixes));
       setIsLoading(false);
