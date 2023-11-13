@@ -64,9 +64,12 @@ function App() {
                 "." +
                 configuration.buildDomain +
                 "/" +
-                indexHtml.textContent
+                indexHtml.getElementsByTagName("Key")[0].textContent
               }
               name="index.html"
+              date={
+                indexHtml.getElementsByTagName("LastModified")[0].textContent
+              }
             />
           )}
         </div>
