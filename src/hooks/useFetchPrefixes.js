@@ -7,11 +7,12 @@ const useFetchPrefixes = (prefix, configuration) => {
 
   const pendingRequests = useRef([]);
 
-  const url = useMemo(
-    () =>
-      `https://${configuration.domain}.${configuration.s3Domain}.amazonaws.com/?list-type=2&prefix=${prefix}&delimiter=%2F`,
-    [configuration, prefix]
-  );
+  const url = useMemo(() => {
+    if (!configuration) {
+      return "";
+    }
+    return `https://${configuration.domain}.${configuration.s3Domain}.amazonaws.com/?list-type=2&prefix=${prefix}&delimiter=%2F`;
+  }, [configuration, prefix]);
 
   const abortPrevRequests = useCallback(() => {
     if (pendingRequests.current.length > 0) {
@@ -22,6 +23,9 @@ const useFetchPrefixes = (prefix, configuration) => {
   }, []);
 
   const fetchData = useCallback(async () => {
+    if (!url) {
+      return;
+    }
     setIsLoading(true);
 
     const abortController = new AbortController();
