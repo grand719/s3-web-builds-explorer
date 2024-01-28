@@ -1,0 +1,6 @@
+{
+  "domain": "domain",
+  "s3Domain": "s3Domain",
+  "buildPrefix": "buildPrefix",
+  "buildDomain": "buildDomain"
+}
