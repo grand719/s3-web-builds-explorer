@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import HashLoader from "react-spinners/HashLoader";
 
 import useFetchPrefixes from "./hooks/useFetchPrefixes";
@@ -9,10 +9,21 @@ import ScreenWrapper from "./ScreenWrapper";
 import FileRedirect from "./FileRedirect";
 import Title from "./Title";
 
-import configuration from "./assets/configuration.json";
-
 function App() {
   const [currentHash, setCurrentHash] = useState(window.location.hash);
+  const [configuration, setConfiguration] = useState(undefined);
+
+  useLayoutEffect(() => {
+    fetch("/assets/configuration.json")
+      .then((response) => response.json())
+      .then((data) => {
+        setConfiguration(data);
+      })
+      .catch((error) => {
+        console.log("Failed to fetch configuration, error: ", error);
+      });
+  }, []);
+
   const { isLoading, fetchData, prefixes, indexHtml } = useFetchPrefixes(
     currentHash.substring(1),
     configuration
@@ -41,7 +52,13 @@ function App() {
     };
   }, [fetchData, onHashChange]);
 
-  return (
+  return !configuration ? (
+    <ScreenWrapper>
+      <div className="fixed top-0 left-0 w-full h-full bg-gray-400/30 flex justify-center items-center">
+        <HashLoader color="#7E22CE" loading={true} size={50} />
+      </div>
+    </ScreenWrapper>
+  ) : (
     <ScreenWrapper>
       <Container>
         <Title>{configuration.domain}</Title>
